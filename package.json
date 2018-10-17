@@ -1,0 +1,32 @@
+{
+  "name": "redux-one",
+  "version": "0.0.1",
+  "description": "no more reducers and actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel-node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usehotkey/redux-one.git"
+  },
+  "keywords": [
+    "redux",
+    "middleware"
+  ],
+  "author": "Igor Golopolosov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/usehotkey/redux-one/issues"
+  },
+  "homepage": "https://github.com/usehotkey/redux-one#readme",
+  "dependencies": {
+    "object-assign-deep": "0.4.0",
+    "redux": "4.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.1.2",
+    "@babel/node": "7.0.0",
+    "@babel/preset-env": "7.1.0"
+  }
+}

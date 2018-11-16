@@ -20,32 +20,31 @@ function createAction(type, action) {
     return createdAction
 }
 
-export const replaceState = createAction(
-    '@@REDUX-ONE/REPLACE',
-    nextState => nextState
-);
+export function getOne(initState) {
+    const id = Math.random();
 
-export const addDiffState = createAction(
-    '@@REDUX-ONE/ADD-DIFF',
-    diffState => diffState
-);
+    const replaceState = createAction(
+        '@@REDUX-ONE/REPLACE/' + id,
+        nextState => nextState
+    );
+    
+    const amendState = createAction(
+        '@@REDUX-ONE/AMEND/' + id,
+        diffState => diffState
+    );
 
-export function one(state, action) {
-    switch (action.type) {
-        case replaceState.type:
-            return action.payload;
-        case addDiffState.type:
-            return objectAssignDeep({}, state, action.payload); 
-        default:
-            return state;
+    const oneReducer = (state = initState, action) => {
+        switch (action.type) {
+            case replaceState.type:
+                return action.payload;
+            case amendState.type:
+                return typeof action.payload === 'object' && action.payload !== null
+                    ? objectAssignDeep({}, state, action.payload)
+                    : action.payload; 
+            default:
+                return state;
+        }
     }
-}
 
-export function combineOne(reducer) {
-    return (state, ...rest) => {
-        const nextState = one(state, ...rest)
-        return state === nextState
-            ? reducer(nextState, ...rest)
-            : nextState
-    }
+    return [oneReducer, replaceState, amendState]
 }

@@ -1,31 +1,37 @@
 import { createStore, applyMiddleware } from 'redux'
-import { logger, combineOne, replaceState, addDiffState } from './'
+import thunk from 'redux-thunk'
+import { logger, getOne } from './'
 
-const mainReducer = () => ({
-    a: {
-        b: {
-            c: 1
-        }
-    }
-})
+const mainReducer = () => ("main")
+
+const [reducer, replace, amend] = getOne({})
+export const replaceState = replace
+export const amendState = amend
 
 const store = createStore(
-    combineOne(mainReducer),
-    applyMiddleware(logger)
+    reducer,
+    applyMiddleware(thunk, logger)
 )
 
-store.dispatch(addDiffState({
+store.dispatch(replaceState({
     a: {
-        b: {
-            d: 2
-        }
+        b: 2
     }
 }))
 
-store.dispatch(addDiffState({
+store.dispatch(amendState({
     a: {
-        e: 3
+        c: 2
     }
 }))
 
-store.dispatch(replaceState(1))
+store.dispatch((dispatch, getState) => {
+    const state = getState()
+
+    const nextState = {
+        ...state,
+        g: 1
+    }
+
+    dispatch(amendState(nextState))
+})

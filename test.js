@@ -1,17 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { logger, getOne } from './'
-
-const mainReducer = () => ("main")
-
-const [reducer, replace, amend] = getOne({})
-export const replaceState = replace
-export const amendState = amend
-
-const store = createStore(
-    reducer,
-    applyMiddleware(thunk, logger)
-)
+import { store, replaceState, amendState } from './configureStore'
 
 store.dispatch(initStore())
 

@@ -4,26 +4,30 @@ store.dispatch(initStore())
 
 store.dispatch(fetchData('abc.com'))
 
-function fetchData (url) {
+function fetchData(url) {
     return (dispatch, getState) => {
         const state = getState()
 
-        const urlToCall = url + '_' + state.version
+        fakeFetch(url + '_' + state.version)
+            .then((data) => {                    
+                dispatch(amendState({
+                    ...state,
+                    data
+                }))
+            })
+    }
+}
 
+function fakeFetch(url) {
+    return new Promise((resolve) => {
         setTimeout(() => {
-            console.log(urlToCall)
-            const data = {
+            resolve({
                 code: 1,
                 size: "123",
-                urlToCall
-            }
-                    
-            dispatch(amendState({
-                ...state,
-                data
-            }))
-        }, 300)
-    }
+                url
+            })
+        }, 500)
+    })
 }
 
 function initStore () {
